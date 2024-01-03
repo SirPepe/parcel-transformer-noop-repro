@@ -7,8 +7,8 @@
   ],
   "description": "",
   "scripts": {
-    "build": "parcel build src/pages/weblog/2006/1152288000000-die-praktische-ein-bild-navigation/content.html --no-cache --log-level verbose --dist-dir out",
-    "dev": "parcel src/pages/weblog/2006/1152288000000-die-praktische-ein-bild-navigation/content.html --no-cache --log-level verbose --dist-dir out"
+    "build": "parcel build src/pages/content.html --no-cache --log-level verbose --dist-dir out",
+    "dev": "parcel src/pages/content.html --no-cache --log-level verbose --dist-dir out"
   },
   "author": "peter@peterkroener.de",
   "license": "MIT",
