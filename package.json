@@ -1,0 +1,19 @@
+{
+  "name": "parcel-transformer-noop-repro",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "plugins/*"
+  ],
+  "description": "",
+  "scripts": {
+    "build": "parcel build src/pages/weblog/2006/1152288000000-die-praktische-ein-bild-navigation/content.html --no-cache --log-level verbose --dist-dir out",
+    "dev": "parcel src/pages/weblog/2006/1152288000000-die-praktische-ein-bild-navigation/content.html --no-cache --log-level verbose --dist-dir out"
+  },
+  "author": "peter@peterkroener.de",
+  "license": "MIT",
+  "dependencies": {
+    "parcel": "^2.9.0",
+    "parcel-transformer-noop": "parcel-transformer-noop"
+  }
+}

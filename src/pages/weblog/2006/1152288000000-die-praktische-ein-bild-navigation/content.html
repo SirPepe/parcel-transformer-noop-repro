@@ -1,0 +1,83 @@
+<p>Manchmal möchte man aus rein optischen Erwägungen auf seiner Seite eine aus Grafiken bestende Navigation haben. Das bedeutet im Normalfall viel Arbeit. Man muss die ganzen Einzelgrafiken zurechtscheiden (und jeweils Mouseover-Versionen), sich dann den Kopf darüber zerbrechen wie man den Mouseover-Effekt realisiert (Javascript? Kann man abschalten. CSS-Pseudoklasse :hover? Geht beim IE auf img-Elementen nicht...) und am Ende muss man sich dann auch noch darum bemühen, dass der Mouseovereffekt ohne Verzögerung beim Nachladen der entsprechenden Grafik kommt.</p>
+<h3>Weniger ist mehr</h3>
+<p>Die Lösung all dieser Probleme besteht darin, die entsprechenden Schritte beim Bau einer Bildernavigation einfach nicht auszuführen. Nehmen wir erst einmal <a id="p18" href="/src/static/2006/08/1.htm">eine ganz einfache HTML-Navigation</a> her:</p>
+<pre class="prettyprint language-html">&lt;ul id="navi"&gt;
+    &lt;li&gt;&lt;a href="/"&gt;Startseite&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="projekte.html"&gt;Projekte&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="referenzen.html"&gt;Referenzen&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="impressum.html"&gt;Impressum&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+<figure class="right"><a href="/src/static/2006/08/navi.jpg" title="Das Navibild"><img id="image19" src="/src/static/2006/08/navi.thumbnail.jpg" alt="Das Navibild"></a><br>
+Dies Bildnis ist bezaubernd schön... bzw. hässlich. Macht aber nichts, es ist ja nur ein Beispiel.</figure>
+<p>Passend dazu basteln wir uns dann die grafischen Repräsentationen der Navigationspunkte (inkl. Varianten für den Mouseover-Effekt), lassen sie aber, statt sie wie gewohnt in Einzelbilder zu zerlegen, in einem Stück.</p>
+<p>Dieses Bild wird in Folge nicht mehr angerührt - ab jetzt brauchen wir nur noch css und ein paar kleinere Änderungen an der HTML-Datei. Der Plan sieht wie folgt aus: </p>
+<ol>
+<li>Die Navigationspunkte (Der Text zwischen den a-Tags) werden mit einem Image-Replace-Trick durch das große Navigationsbild ersetzt.</li>
+<li>Durch individuelles CSS-Styling wird das Navigationsbild für jeden Punkt so positioniert, dass es aussieht als wäre dort jeweils ein Einzelbild am Werke.</li>
+<li>Weil das ganze in a-Tags stattfindet, ist es kein Problem mit der :hover-Pseudoklasse den Mouseovereffekt zu erstellen. Es wird einfach das Navigationsbild für a:hover so verschoben, dass statt der normalen Grafik die Mouseover-Version zu sehen ist.</li>
+</ol>
+<h3>Schritt 1</h3>
+<p><q>Image-Replace-Trick</q> bedeutet in diesem Fall, dass die a-Tags zu Block-Elementen werden, ein Hintergrundbild bekommen - und dass der Text zwischen den a-Tags verschwindet. Wir setzen ihn einfach in einen Span und stylen diesen unsichtbar. CSS-Fähige Browser werden ihn nicht anzeigen, aber für Suchmaschinen, Screenreader und Textbrowser ist der Text immer noch da. Der Code für diesen Schritt:</p>
+<pre class="prettyprint language-html">&lt;ul id="navi"&gt;
+    &lt;li&gt;&lt;a href="/"&gt;&lt;span&gt;Startseite&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="projekte.html"&gt;&lt;span&gt;Projekte&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="referenzen.html"&gt;&lt;span&gt;Referenzen&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="impressum.html"&gt;&lt;span&gt;Impressum&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+<p>CSS macht aus den Links Block-Elemente und verpasst ihnen unser Navibild als Hintergrund.</p>
+<pre class="prettyprint language-css">#navi {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+
+#navi li a {
+  display:block;
+  width:160px;
+  height:32px;
+  background:white url(navi.jpg) no-repeat top left;
+}
+
+#navi li a span {
+  display:none;
+}</pre>
+<p>Jetzt sieht <a id="p20" href="/src/static/2006/08/2.htm">die Navigation</a> schon richtig nach etwas aus, allein die richtige Positionierung des Hintergrundbildes für die einzelnen Punkte fehlt noch.</p>
+<h3>Schritt 2 und 3</h3>
+<p>Mit CSS und <code>background-position</code> kein ist die Positionierung des Hintergrunds kein Problem; und um Zeit zu sparen, legen wir das ganze gleich so an, dass die Position beim Mouseover eine andere ist. Weil das ganze ja nur Hintergrundbilder eines a-Tags sind, brauchen wir dafür nicht mehr als die :hover-Pseudoklasse. Um die einzelnen Links in den Navigationspunkte zu identifizieren, verpassen wir den Listenpunkten noch IDs. Jetzt schaut das ganze so aus:</p>
+<pre class="prettyprint language-html">&lt;ul id="navi"&gt;
+    &lt;li id="navi-start" &gt;&lt;a href="/"&gt;&lt;span&gt;Startseite&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li id="navi-projekte"&gt;&lt;a href="projekte.html"&gt;&lt;span&gt;Projekte&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li id="navi-referenzen"&gt;&lt;a href="referenzen.html"&gt;&lt;span&gt;Referenzen&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li id="navi-impressum"&gt;&lt;a href="impressum.html"&gt;&lt;span&gt;Impressum&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+<p>Das CSS mit all den Zahlen ist dann doch etwas mühsam (Beziehungsweise es wird schnell mühsam wenn die Navigationsliste lang wird), aber schneller als sich im Grafikprogramm einen Wolf zu schnibbeln ist's allemal. Letztendlich ist es ja nur einfachstes Rechnen.</p>
+<pre class="prettyprint language-css">#navi-start a:link, #navi-start a:visited, #navi-start a:active {
+    background-position:0px 0px;
+}
+#navi-start a:hover {
+    background-position:0px -128px;
+}
+
+#navi-projekte a:link, #navi-projekte a:visited, #navi-projekte a:active {
+    background-position:0px -32px;
+}
+#navi-projekte a:hover {
+    background-position:0px -160px;
+}
+
+#navi-referenzen a:link, #navi-referenzen a:visited, #navi-referenzen a:active {
+    background-position:0px -64px;
+}
+#navi-referenzen a:hover {
+    background-position:0px -192px;
+}
+
+#navi-impressum a:link, #navi-impressum a:visited, #navi-impressum a:active {
+    background-position:0px -96px;
+}
+#navi-impressum a:hover {
+    background-position:0px -224px;
+}</pre>
+<p>Uns schon ist <a id="p21" href="/src/static/2006/08/3.htm">unsere Navigation</a> fertig. Kein Javascript, keine großen IE-Probleme, keine Nachladezeit-Probleme. Die optimale Lösung wenn's denn mal Bilder sein müssen.</p>
+<h3>Nachtrag vom 26. August 2007</h3>
+<p>Die Methode, die hier zum Verstecken des Textes der Navigationspunkte verwendet wird, hat den Nachteil, dass die versteckten Elemente von Screenreadern nicht erfasst werden. Wie man es besser besser macht ist im Artikel über Image Replacement beschrieben.</p>

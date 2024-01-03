@@ -1,0 +1,8 @@
+{
+  "name": "parcel-transformer-noop",
+  "engines": {
+    "parcel": "2.x"
+  },
+  "version": "1.0.0",
+  "main": "index.js"
+}
